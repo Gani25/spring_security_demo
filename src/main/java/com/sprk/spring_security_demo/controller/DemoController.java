@@ -12,6 +12,7 @@ public class DemoController {
         return "Welcome to Spring Security Demo";
     }
 
+//    OPEN TO ANYONE WITHOUT LOGIN
     @GetMapping({"/home","/"})
     public String showHome(){
         return "Home Page of Spring Security";
