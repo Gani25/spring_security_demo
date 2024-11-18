@@ -1,5 +1,6 @@
 package com.sprk.spring_security_demo.config;
 
+import com.sprk.spring_security_demo.service.CustomUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -27,11 +28,16 @@ public class SecurityConfig {
     }
 
     @Bean
+    public UserDetailsService userDetailsService() {
+        return new CustomUserDetailsService();
+    }
+
+    @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
 
         authProvider.setPasswordEncoder(passwordEncoder());
-//        authProvider.
+        authProvider.setUserDetailsService(userDetailsService());
         return authProvider;
     }
 
@@ -63,8 +69,8 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests((request)-> request
-                .requestMatchers("/","/home").permitAll()
+        http.authorizeHttpRequests((request) -> request
+                .requestMatchers("/", "/home").permitAll()
                 .anyRequest().authenticated()
         );
 
