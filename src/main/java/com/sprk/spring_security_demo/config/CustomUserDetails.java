@@ -6,6 +6,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -22,8 +23,12 @@ public class CustomUserDetails implements UserDetails {
     public CustomUserDetails(UserInfo userInfo) {
         this.username = userInfo.getUsername();
         this.password = userInfo.getPassword();
+        this.authorities = Arrays.stream(userInfo.getRoles().split(","))
+                .map(String::trim)
+                .<GrantedAuthority>map(SimpleGrantedAuthority::new)
+                .toList();
 
-        String roles = userInfo.getRoles();
+        /*String roles = userInfo.getRoles();
 
         String[] rolesArr = roles.split(",");
 
@@ -33,7 +38,7 @@ public class CustomUserDetails implements UserDetails {
             authorities.add(new SimpleGrantedAuthority(role.trim()));
         }
 
-        this.authorities = authorities;
+        this.authorities = authorities;*/
 
     }
 
