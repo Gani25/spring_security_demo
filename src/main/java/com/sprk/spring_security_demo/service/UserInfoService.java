@@ -31,4 +31,26 @@ public class UserInfoService {
 
 
     }
+
+    // Post Mapping to assign role to user
+    public String addRoleToUser(int id, String role) {
+
+        UserInfo userInfo = userInfoRepository.findById((long) id).orElseThrow(() -> new RuntimeException("User Not found!"));
+
+        String existingRoleString = userInfo.getRoles();
+        StringBuilder existingRoles = new StringBuilder(userInfo.getRoles());
+
+        if(!existingRoleString.contains(role)){
+
+            existingRoles.append(",").append(role);
+        }else{
+            return "Role Already Exists";
+        }
+
+        userInfo.setRoles(existingRoles.toString());
+
+        userInfoRepository.save(userInfo);
+
+        return " Role Assign to user Successfully....";
+    }
 }
