@@ -55,4 +55,10 @@ public class DemoController {
     public String addRoleToUser(@PathVariable int id, @RequestParam String role) {
         return userInfoService.addRoleToUser(id, role);
     }
+
+    @PutMapping("/delete_role/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    public String deleteRoleToUser(@PathVariable int id, @RequestParam String role) {
+        return userInfoService.deleteRoleToUser(id, role);
+    }
 }

@@ -53,4 +53,26 @@ public class UserInfoService {
 
         return " Role Assign to user Successfully....";
     }
+
+    public String deleteRoleToUser(int id, String role) {
+
+        UserInfo userInfo = userInfoRepository.findById((long) id).orElseThrow(() -> new RuntimeException("User Not found!"));
+
+        String existingRoleString = userInfo.getRoles();
+        StringBuilder existingRoles = new StringBuilder(userInfo.getRoles());
+
+        if(existingRoleString.contains(role)){
+
+            existingRoles.delete(existingRoleString.indexOf(role)-1, (existingRoleString.indexOf(role)+role.length()));
+
+        }else{
+            return "Role Not Found";
+        }
+
+        userInfo.setRoles(existingRoles.toString());
+
+        userInfoRepository.save(userInfo);
+
+        return " Role Delete Successfully....";
+    }
 }
